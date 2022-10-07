@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+
+            //Se ejecuta al principio para generar la primera checkbox
+            window.onload = creaCheck;
+
+            function creaCheck() {
+                
+                //Recogemos el valor del range
+                //Recogemos la capa donde guardas las checkbox y input
+
+                var valor = parseInt(document.getElementById("rango1").value);
+                var capa = document.getElementById("capa");
+
+                //Reiniciamos la capa para eliminar checkbox y input
+                capa.innerHTML = "";
+                document.getElementById("sumatotal").innerHTML="";
+
+                //Hacemos bucle donde se crean las checkbox y input, se asignan
+                //los atributos y eventos, y se añade a la capa
+                for (var i=0; i < valor; i++) {
+
+                    var input = document.createElement("input");
+                    var etiqueta = document.createElement("label");
+                    input.value = Math.trunc(Math.random()*50);
+                    input.type = "checkbox";
+
+                    etiqueta.innerText = input.value;
+                    input.addEventListener("click",sumaNumeros);
+
+                    capa.appendChild(etiqueta);
+                    capa.appendChild(input);
+                }
+            }
+
+            function sumaNumeros() {
+
+                //Recogemos todos los input
+                var cajitas = document.getElementsByTagName("input");
+                //Recogemos la suma de las checkbox que esten checked
+                var suma = 0;
+
+                //Recorremos todos los input que hay (range y checkbox)
+                for (var i = 0; i < cajitas.length; i++ ) {
+
+                    //Como hay un range, filtramos para que solo sea 
+                    //type = "checkbox"
+                    if (cajitas[i].type == "checkbox") {
+
+                        //pasamos el valor a numero
+                        var numero = parseInt(cajitas[i].value);
+
+                        //Comprobamos si la caja que toca en el bucle
+                        //esta seleccionada, si lo esta, sumamos
+                        if (cajitas[i].checked) {
+
+                            suma += numero;
+                        }
+
+                    }
+
+                }
+
+                //Le asignamos al h1 la frase para mostrar la suma
+                document.getElementById("sumatotal").innerHTML = "La suma total es: "+suma;
+                
+            }
+        </script>
+    </head>
+    <body>
+        <label>Controles dinamicos</label>
+        <input type="range" id="rango1" min="1" max="10" value="1" onchange="creaCheck()">
+
+        <p id="capa"></p>
+        <h1 id="sumatotal"></div>
+
+    </body>
+</html>

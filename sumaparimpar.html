@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+
+            //Se ejecuta al principio para generar los numeros
+            window.onload = generaNumeros;
+
+            function generaNumeros() {
+                
+                //Recogemos todos los inputs
+                var cajitas = document.getElementsByTagName("input");
+
+                //Recorremos todos los input que hay (radio y checkbox)
+                for (var i = 0; i < cajitas.length; i++ ) {
+
+                    //Como hay radios, filtramos para que solo sea 
+                    //type = "text"
+                    if (cajitas[i].type == "text") {
+
+                        //Generamos un valor aleatorio para el valor de cada input y se trunca
+                        //para que no haya decimales
+                        cajitas[i].value = Math.trunc(Math.random()*100);
+
+                        //Guardamos el numero aleatorio generado para comprobar si es par o impar
+                        var numero = parseInt(cajitas[i].value);
+                        cajitas[i].style.color = "white";
+
+                        //Si el numero es par, le asignamos bg crimson, sino bg blue
+                        if(numero%2 == 0) {
+                            cajitas[i].style.backgroundColor = "crimson";
+                        }else{
+                            cajitas[i].style.backgroundColor = "blue";
+                        }
+
+                    }
+
+                }
+            }
+            
+
+            function sumaNumeros() {
+
+                //Recogemos los input radio que esta checked
+                let radioActivo = document.querySelector('input[name="seleccion"]:checked');
+
+                //Si no es null (Hemos seleccionado un radio) y entramos en el if
+                if (radioActivo != null){
+
+                    //Recogemos el valor de la seleccion (par o impar)
+                    let seleccion = radioActivo.value;
+
+                    //Recogemos la suma de los input en esta variable
+                    var suma = 0;
+
+                    let cajitas = document.getElementsByTagName("input");
+                    //Recorremos todos los input que hay (radio y checkbox)
+                    for (var i = 0; i < cajitas.length; i++ ) {
+                        
+                        //Si son tipo texto cogemos el numero, sino, no hacemos nada
+                        if (cajitas[i].type == "text") {
+
+                            //Convertimos en numero el valor del input
+                            var numero = parseInt(cajitas[i].value);
+
+                            //Comprobamos si la seleccion es par o impar. Ademas
+                            //debemos comprobar los numeros para no sumar todos
+                            if (seleccion == "par") {
+
+                                if (numero%2 == 0) {
+
+                                    suma += numero;
+                                }
+
+                            }else if(seleccion == "impar") {
+                                
+                                if (numero%2 != 0) {
+                                    
+                                    suma += numero;
+                                }
+
+                            }
+                        
+                        }
+
+                    }
+
+                    //Le asignamos al h1 la frase para mostrar la suma
+                    document.getElementById("sumatotal").innerHTML = "La suma total es: "+suma;
+
+                }else{
+                    console.log("No seleccionado");
+                }
+                
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Sumar valores con cajas random</h1>
+        <input type="radio" name="seleccion" value="par"><label>Par</label>
+        <input type="radio" name="seleccion" value="impar"><label>Impar</label>
+        <br><br>
+        <input type="text" id="caja1">
+        <br><br>
+        <input type="text" id="caja2">
+        <br><br>
+        <input type="text" id="caja3">
+        <br><br>
+        <input type="text" id="caja4">
+        <br><br>
+        <button type="button" onclick="sumaNumeros()">Sumar numeros</button>
+        <h1 id="sumatotal"></h1>
+        
+    </body>
+</html>
